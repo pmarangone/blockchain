@@ -6,6 +6,11 @@ import Navbar from "./Navbar";
 import Main from "./Main";
 import "./App.css";
 
+const token_address = process.env["REACT_APP_TOKEN_CONTRACT_ADDRESS"];
+const ethSwap_address = process.env["REACT_APP_ETHSWAP_CONTRACT_ADDRESS"];
+
+console.log("hello world", token_address, ethSwap_address);
+
 class App extends Component {
   async componentWillMount() {
     await this.loadWeb3();
@@ -23,9 +28,9 @@ class App extends Component {
 
     // Load Token
     const networkId = await web3.eth.net.getId();
-    const tokenData = Token.networks[networkId];
-    if (tokenData) {
-      const token = new web3.eth.Contract(Token.abi, tokenData.address);
+    // const tokenData = [Token.abi, "0x3C9a4Df3dfA4851f455893a3638dCFDAE073b11b"];
+    if (true) {
+      const token = new web3.eth.Contract(Token.abi, token_address);
       this.setState({ token });
       let tokenBalance = await token.methods
         .balanceOf(this.state.account)
@@ -36,9 +41,9 @@ class App extends Component {
     }
 
     // Load EthSwap
-    const ethSwapData = EthSwap.networks[networkId];
-    if (ethSwapData) {
-      const ethSwap = new web3.eth.Contract(EthSwap.abi, ethSwapData.address);
+    // const ethSwapData = EthSwap.networks[networkId];
+    if (true) {
+      const ethSwap = new web3.eth.Contract(EthSwap.abi, ethSwap_address);
       this.setState({ ethSwap });
     } else {
       window.alert("EthSwap contract not deployed to detected network.");
